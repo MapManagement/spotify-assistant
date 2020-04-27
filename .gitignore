@@ -1,3 +1,4 @@
 /venv/
 .idea/
 assistant/secrets.py
+__pycache__/
