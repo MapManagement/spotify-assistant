@@ -26,11 +26,21 @@ Followers: {playlist_data["followers"]["total"]}
 
     def get_genre_by_artist(self, artist: str):
         artist_data = self.assistant.artist(artist)
-        print(artist_data)
         genres = ""
         for genre in artist_data["genres"]:
             genres += f"{genre}, "
-        response = f"Genres: {genres}"
+        response = f"Artist: {artist_data['name']}\n" \
+                   f"Genres: {genres}"
+        print(response)
+
+    def track_stats(self, track_id: str):
+        track_stats_data = self.assistant.audio_features([track_id])
+        response = f"""
+Duration: {track_stats_data[0]["duration_ms"] / 60000}min
+Loudness: {track_stats_data[0]["loudness"]}dB
+Speech: {track_stats_data[0]["speechiness"]}%
+Speed: {track_stats_data[0]["tempo"]}BPM
+                            """
         print(response)
 
 
@@ -38,3 +48,4 @@ if __name__ == "__main__":
     assistant = SpotifyAssistant()
     assistant.get_playlist_info("spotify:playlist:7sZbq8QGyMnhKPcLJvCUFD")
     assistant.get_genre_by_artist("25sJFKMqDENdsTF7zRXoif")
+    assistant.track_stats("5Wc9izp20t1fkYNCHIz2ug")
