@@ -43,9 +43,19 @@ Speed: {track_stats_data[0]["tempo"]}BPM
                             """
         print(response)
 
+    def get_track_info(self, track_id: str):
+        track_info = self.assistant.track(track_id)
+        response = f"""
+Track: {track_info["name"]}
+Preview: {track_info["preview_url"]}
+Duration: {track_info["duration_ms"] / 60000}min
+                            """
+        print(response)
+
 
 if __name__ == "__main__":
     assistant = SpotifyAssistant()
     assistant.get_playlist_info("spotify:playlist:7sZbq8QGyMnhKPcLJvCUFD")
     assistant.get_genre_by_artist("25sJFKMqDENdsTF7zRXoif")
     assistant.track_stats("5Wc9izp20t1fkYNCHIz2ug")
+    assistant.get_track_info("5Wc9izp20t1fkYNCHIz2ug")
