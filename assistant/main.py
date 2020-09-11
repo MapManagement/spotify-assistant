@@ -36,7 +36,7 @@ Followers: {playlist_data["followers"]["total"]}
     def track_stats(self, track_id: str):
         track_stats_data = self.assistant.audio_features([track_id])
         response = f"""
-Duration: {track_stats_data[0]["duration_ms"] / 60000}min
+Duration: {round(track_stats_data[0]["duration_ms"] / 60000, 2)}min
 Loudness: {track_stats_data[0]["loudness"]}dB
 Speech: {track_stats_data[0]["speechiness"]}%
 Speed: {track_stats_data[0]["tempo"]}BPM
@@ -45,10 +45,15 @@ Speed: {track_stats_data[0]["tempo"]}BPM
 
     def get_track_info(self, track_id: str):
         track_info = self.assistant.track(track_id)
+        artists = "| "
+        for artist in track_info["artists"]:
+            artists += f'{artist["name"]} | '
         response = f"""
 Track: {track_info["name"]}
+Artist(s): {artists}
 Preview: {track_info["preview_url"]}
-Duration: {track_info["duration_ms"] / 60000}min
+Duration: {round(track_info["duration_ms"] / 60000, 2)}min
+Popularity: {track_info["popularity"]}%
                             """
         print(response)
 
