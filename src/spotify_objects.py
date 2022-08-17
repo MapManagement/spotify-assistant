@@ -3,9 +3,7 @@ class Artist:
     def __init__(self):
         pass
 
-
 class Track:
-
     def __init__(self, name: str, track_id: str):
         self.name = name
         self.track_id = track_id
