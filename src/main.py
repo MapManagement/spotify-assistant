@@ -1,4 +1,5 @@
-import api_connector as api
+import api.api_connector as connector
+import api.spotify_objects
 import json
 import os
 
@@ -16,4 +17,7 @@ if __name__ == "__main__":
     secrets = read_secrets()
     
     if ACCESS_TOKEN is None:
-        ACCESS_TOKEN= api.get_access_token(secrets["CLIENT_ID"], secrets["CLIENT_SECRET"])
+        token_object = connector.get_access_token(secrets["CLIENT_ID"], secrets["CLIENT_SECRET"])
+        ACCESS_TOKEN = token_object.token
+
+    track = connector.get_track("4MDrGVm2yYsMj97CLGdhdI", str(ACCESS_TOKEN))
