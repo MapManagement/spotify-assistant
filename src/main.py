@@ -1,5 +1,5 @@
 import api.api_connector as connector
-import api.spotify_objects
+from api.spotify_classes.access_token import AccessToken
 import json
 import os
 
