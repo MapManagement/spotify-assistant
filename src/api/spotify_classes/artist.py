@@ -1,4 +1,5 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import Dict, List
 
 @dataclass
 class Artist:
@@ -7,7 +8,7 @@ class Artist:
     image_url: str = ""
     spotify_url: str = ""
     total_followers: int = 0
-    genres: list = []
+    genres: List[str] = field(default_factory=list) 
     popularity_score: int = 0
 
 

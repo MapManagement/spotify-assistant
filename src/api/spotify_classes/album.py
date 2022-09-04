@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from enum import Enum
 from datetime import datetime
-from artist import Artist
-from track import Track
+from api.spotify_classes.artist import Artist
+from api.spotify_classes.track import Track
 
 class AlbumType(Enum):
     ALBUM = 0

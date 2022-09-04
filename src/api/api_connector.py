@@ -1,8 +1,8 @@
 import requests 
-from spotify_classes.track import Track
-from spotify_classes.album import Album
-from spotify_classes.artist import Artist
-from spotify_classes.access_token import AccessToken
+from api.spotify_classes.track import Track
+from api.spotify_classes.album import Album
+from api.spotify_classes.artist import Artist
+from api.spotify_classes.access_token import AccessToken
 
 def get_access_token(client_id: str, client_secret: str) -> AccessToken:
     authorization_keys = {

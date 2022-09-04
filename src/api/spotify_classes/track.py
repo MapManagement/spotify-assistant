@@ -1,6 +1,6 @@
-from dataclasses import dataclass
-from artist import Artist
-from album import Album
+from dataclasses import dataclass, field
+from api.spotify_classes.artist import Artist
+from typing import List
 
 @dataclass
 class Track:
@@ -10,8 +10,8 @@ class Track:
     spotify_url: str = ""
     preview_url: str = ""
     popularity: int = 0
-    album: Album = Album("")
-    artists: list = []
+    album_id: str = ""
+    artists: List[Artist] = field(default_factory=list)
     genres: str = ""
     image_url: str = ""
 
