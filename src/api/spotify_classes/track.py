@@ -12,7 +12,7 @@ class Track:
     popularity: int = 0
     album_id: str = ""
     artists: List[Artist] = field(default_factory=list)
-    genres: str = ""
+    genres: List[str] = field(default_factory=list)
     image_url: str = ""
 
     

@@ -21,3 +21,4 @@ if __name__ == "__main__":
         ACCESS_TOKEN = token_object.token
 
     track = connector.get_track("4MDrGVm2yYsMj97CLGdhdI", str(ACCESS_TOKEN))
+    print(track)

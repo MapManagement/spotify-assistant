@@ -9,6 +9,6 @@ class Artist:
     spotify_url: str = ""
     total_followers: int = 0
     genres: List[str] = field(default_factory=list) 
-    popularity_score: int = 0
+    popularity: int = 0
 
 
