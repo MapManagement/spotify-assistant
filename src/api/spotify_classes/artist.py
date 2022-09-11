@@ -3,7 +3,7 @@ from typing import Dict, List
 
 @dataclass
 class Artist:
-    artist_id: str
+    artist_id: str 
     name: str = ""
     image_url: str = ""
     spotify_url: str = ""
