@@ -1,4 +1,4 @@
-/venv/
+/src/venv/
 .idea/
 secrets.json
 __pycache__/
