@@ -6,7 +6,7 @@ from typing import List
 class Track:
     track_id: str
     name: str = ""
-    duration: str = ""
+    duration: int = 0
     spotify_url: str = ""
     preview_url: str = ""
     popularity: int = 0
