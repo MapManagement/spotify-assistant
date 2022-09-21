@@ -13,41 +13,46 @@ ACCESS_TOKEN = None
 def track():
     pass
 
-@click.command()
+@track.command()
 @click.argument("track_url")
 def track_all(track_url: str):
+    """Get all information about a track"""
     track = connector.get_track(track_url, str(ACCESS_TOKEN))
     
     if track is not None:
         formatted_track = format_track(track)
         click.echo(formatted_track)
 
-@click.command()
+@track.command()
 @click.argument("track_url")
 def track_genre(track_url: str):
+    """ Get the genre of a track"""
     pass
 
 @click.group()
 def artist():
     pass
 
-@click.command()
+@artist.command()
 @click.argument("artist_url")
 def artist_all(artist_url: str):
+    """Get all information about an artist"""
     pass
 
-@click.command()
+@artist.command()
 @click.argument("artist_url")
 def artist_genre(artist_url: str):
+    """Get the genre of an artist"""
     pass
 
 @click.group()
 def album():
     pass
 
-@click.command()
+@album.command()
 @click.argument("album_url")
 def album_all(album_url: str):
+    """Get all information about an album"""
     pass
 
 # ----- Non-CLI-Commands
@@ -60,16 +65,7 @@ def read_secrets() -> dict:
     except FileNotFoundError:
         return {}
 
-def add_track_group():
-    track.add_command(track_all)
-    track.add_command(track_genre)
-
-def add_artist_group():
-    artist.add_command(artist_all)
-    artist.add_command(artist_genre)
-
-def add_album_group():
-    album.add_command(album_all)
+cli = click.CommandCollection(sources=[artist, album, track])
 
 if __name__ == "__main__":
     secrets = read_secrets()
@@ -78,8 +74,5 @@ if __name__ == "__main__":
         token_object = connector.get_access_token(secrets["CLIENT_ID"], secrets["CLIENT_SECRET"])
         ACCESS_TOKEN = token_object.token
     
-    add_track_group()
-    add_artist_group()
-    add_album_group()
+    cli()
 
-    # s_track = connector.get_track("4MDrGVm2yYsMj97CLGdhdI", str(ACCESS_TOKEN))
