@@ -1,3 +1,4 @@
+from api.spotify_classes.album import Album
 from api.spotify_classes.artist import Artist
 from api.spotify_classes.track import Track
 from typing import List
@@ -16,7 +17,7 @@ def extract_artist(artist_dict: dict) -> Artist | None:
 
     return extracted_artist
 
-def extract_multiple_artist(artists_list: List[dict]) -> List[Artist]:
+def extract_multiple_artists(artists_list: List[dict]) -> List[Artist]:
     if artists_list is None or len(artists_list) == 0:
         return []
 
@@ -41,10 +42,24 @@ def extract_track(track_dict: dict) -> Track | None:
                   preview_url = track_dict["preview_url"],
                   popularity = track_dict["popularity"],
                   album_id = track_dict["album"]["id"],
-                  artists = extract_multiple_artist(track_dict["artists"])
+                  artists = extract_multiple_artists(track_dict["artists"])
                   # genres = list(json_repsonse["artists"]["genres"]),
                   # image_url
                   )
 
     return extracted_track
+
+def extract_album(album_dict: dict) -> Album | None:
+    extracted_album = Album(name = album_dict.get("name", ""),
+                            album_id = album_dict.get("id", ""),
+                            # album_type
+                            total_tracks = album_dict.get("total_track", 0),
+                            spotify_url = album_dict["external_urls"]["spotify"],
+                            # release_date
+                            # image_url
+                            artists = extract_multiple_artists(album_dict["artists"])
+                            # tracks
+                            )
+
+    return extracted_album
 
