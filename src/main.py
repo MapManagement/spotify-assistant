@@ -1,11 +1,12 @@
 import api.api_connector as connector
 from api.spotify_classes.access_token import AccessToken
-from formatter.formatter import format_album, format_track, format_artist
+from utils import cli_helper
 import json
 import os
 import click
 
 ACCESS_TOKEN = None
+ACCESS_TOKEN_ERROR = "Your access token could not be used to resolve data from Spotify"
 
 # ----- CLI-Commands
 
@@ -15,13 +16,13 @@ def track():
 
 @track.command()
 @click.argument("track_url")
-def track_all(track_url: str):
+def full_track(track_url: str):
     """Get all information about a track"""
-    track = connector.get_track(track_url, str(ACCESS_TOKEN))
-    
-    if track is not None:
-        formatted_track = format_track(track)
-        click.echo(formatted_track)
+    if not valid_access_token():
+        return
+
+    track_text = cli_helper.get_full_track(track_url, str(ACCESS_TOKEN))
+    click.echo(track_text)
 
 @track.command()
 @click.argument("track_url")
@@ -35,9 +36,14 @@ def artist():
 
 @artist.command()
 @click.argument("artist_url")
-def artist_all(artist_url: str):
+def full_artist(artist_url: str):
     """Get all information about an artist"""
-    pass
+    if not valid_access_token():
+        return
+
+    artist_text = cli_helper.get_full_artist(artist_url, str(ACCESS_TOKEN))
+    click.echo(artist_text)
+
 
 @artist.command()
 @click.argument("artist_url")
@@ -51,11 +57,21 @@ def album():
 
 @album.command()
 @click.argument("album_url")
-def album_all(album_url: str):
+def full_album(album_url: str):
     """Get all information about an album"""
-    pass
+    if not valid_access_token():
+        return
+
+    album_text = cli_helper.get_full_album(album_url, str(ACCESS_TOKEN))
+    click.echo(album_text)
 
 # ----- Non-CLI-Commands
+def valid_access_token() -> bool:
+    valid = ACCESS_TOKEN is None or len(ACCESS_TOKEN) == 0
+    if not valid:
+        click.echo(ACCESS_TOKEN_ERROR)
+
+    return valid
 
 def read_secrets() -> dict:
     filename = os.path.join('secrets.json')
@@ -65,14 +81,25 @@ def read_secrets() -> dict:
     except FileNotFoundError:
         return {}
 
-cli = click.CommandCollection(sources=[artist, album, track])
+def get_access_token() -> str | None:
+    if ACCESS_TOKEN is not None:
+        return ACCESS_TOKEN
+
+    secrets = read_secrets()
+
+    if secrets is None or len(secrets) < 1: 
+        return None
+
+    token_object = connector.get_access_token(secrets["CLIENT_ID"], secrets["CLIENT_SECRET"])
+    return token_object.token
 
 if __name__ == "__main__":
-    secrets = read_secrets()
-    
+    ACCESS_TOKEN = get_access_token()
+
     if ACCESS_TOKEN is None:
-        token_object = connector.get_access_token(secrets["CLIENT_ID"], secrets["CLIENT_SECRET"])
-        ACCESS_TOKEN = token_object.token
-    
+        print("The access token is either empty or has not been set!")
+        quit()
+
+    cli = click.CommandCollection(sources=[artist, album, track])
     cli()
 
