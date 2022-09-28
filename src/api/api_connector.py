@@ -24,7 +24,7 @@ def get_track(track_url: str, access_token: str) -> Track | None:
     if track_url is None or access_token is None:
         return None
 
-    track_id = get_id_from_url(track_url)
+    track_id = get_id_from_url(track_url, "track")
 
     if track_id is None:
         return None
@@ -41,7 +41,7 @@ def get_album(album_url: str, access_token: str) -> Album | None:
     if album_url is None or access_token is None:
         return None
 
-    album_id = get_id_from_url(album_url)
+    album_id = get_id_from_url(album_url, "album")
 
     if album_id is None:
         return None
@@ -58,7 +58,7 @@ def get_artist(artist_url: str, access_token: str) -> Artist | None:
     if artist_url is None or access_token is None:
         return None
 
-    artist_id = get_id_from_url(artist_url)
+    artist_id = get_id_from_url(artist_url, "artist")
 
     if artist_id is None:
         return None
@@ -71,13 +71,13 @@ def get_artist(artist_url: str, access_token: str) -> Artist | None:
 
     return artist
 
-def get_id_from_url(url: str) -> str | None:
-    position = url.find("si=")
+def get_id_from_url(url: str, object_type: str) -> str | None:
+    position = url.find(f"{object_type}/")
 
     if position == -1:
         return None
 
-    position += 3
-    object_id = url[position:len(url) - 1]
-
+    position += len(object_type) + 1
+    object_id = url[position:len(url)]
+    
     return object_id

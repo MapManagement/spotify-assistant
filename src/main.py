@@ -6,7 +6,7 @@ import os
 import click
 
 ACCESS_TOKEN = None
-ACCESS_TOKEN_ERROR = "Your access token could not be used to resolve data from Spotify"
+ACCESS_TOKEN_ERROR = "Your access token could not be used to resolve data from Spotify."
 
 # ----- CLI-Commands
 
@@ -66,8 +66,9 @@ def full_album(album_url: str):
     click.echo(album_text)
 
 # ----- Non-CLI-Commands
+
 def valid_access_token() -> bool:
-    valid = ACCESS_TOKEN is None or len(ACCESS_TOKEN) == 0
+    valid = ACCESS_TOKEN is not None or len(str(ACCESS_TOKEN)) == 0
     if not valid:
         click.echo(ACCESS_TOKEN_ERROR)
 

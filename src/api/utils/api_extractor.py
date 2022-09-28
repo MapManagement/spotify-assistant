@@ -13,7 +13,8 @@ def extract_artist(artist_dict: dict) -> Artist | None:
                     spotify_url = artist_dict["external_urls"]["spotify"],
                     # total_followers
                     # genres = artist_dict["genres"],
-                    popularity = artist_dict["popularity"])
+                    # popularity = artist_dict["popularity"]
+                    )
 
     return extracted_artist
 
