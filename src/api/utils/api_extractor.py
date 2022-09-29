@@ -11,9 +11,9 @@ def extract_artist(artist_dict: dict) -> Artist | None:
                     name = artist_dict["name"],
                     # image_url
                     spotify_url = artist_dict["external_urls"]["spotify"],
-                    # total_followers
+                    total_followers = artist_dict["followers"]["total"],
                     # genres = artist_dict["genres"],
-                    # popularity = artist_dict["popularity"]
+                    popularity = artist_dict["popularity"]
                     )
 
     return extracted_artist
@@ -43,7 +43,7 @@ def extract_track(track_dict: dict) -> Track | None:
                   preview_url = track_dict["preview_url"],
                   popularity = track_dict["popularity"],
                   album_id = track_dict["album"]["id"],
-                  artists = extract_multiple_artists(track_dict["artists"])
+                  # artists = extract_multiple_artists(track_dict["artists"])
                   # genres = list(json_repsonse["artists"]["genres"]),
                   # image_url
                   )
@@ -58,7 +58,7 @@ def extract_album(album_dict: dict) -> Album | None:
                             spotify_url = album_dict["external_urls"]["spotify"],
                             # release_date
                             # image_url
-                            artists = extract_multiple_artists(album_dict["artists"])
+                            # artists = extract_multiple_artists(album_dict["artists"])
                             # tracks
                             )
 

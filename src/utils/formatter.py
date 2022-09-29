@@ -25,7 +25,16 @@ def format_track_genres():
     pass
 
 def format_artist(artist: Artist):
-    pass
+    formatted_genres = format_genre_list(artist.genres)
+
+    artist_text = f"---- {artist.name.upper()} ----\n"
+    artist_text += f"Spotify Artist ID: {artist.artist_id}\n"
+    artist_text += f"Total Followers: {artist.total_followers}\n"
+    artist_text += f"Popularity: {artist.popularity}\n"
+    artist_text += f"Genres: {formatted_genres}\n"
+    artist_text += f"Artist URL: {artist.spotify_url}\n"
+
+    return artist_text
 
 def format_artist_genre():
     pass

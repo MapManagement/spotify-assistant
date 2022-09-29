@@ -44,7 +44,6 @@ def full_artist(artist_url: str):
     artist_text = cli_helper.get_full_artist(artist_url, str(ACCESS_TOKEN))
     click.echo(artist_text)
 
-
 @artist.command()
 @click.argument("artist_url")
 def artist_genre(artist_url: str):
