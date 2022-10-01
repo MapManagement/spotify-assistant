@@ -33,15 +33,28 @@ def format_artist(artist: Artist):
     artist_text += f"Total Followers: {artist.total_followers}\n"
     artist_text += f"Popularity: {artist.popularity}\n"
     artist_text += f"Genres: {formatted_genres}\n"
+    artist_text += f"Image URL: {artist.image_url}\n"
     artist_text += f"Artist URL: {artist.spotify_url}\n"
 
     return artist_text
 
+
+
 def format_artist_genre():
-    pass
+   pass
 
 def format_album(album: Album):
-    pass
+    formatted_artists = format_artist_list(album.artists)
+
+    album_text = f"---- {album.name.upper()} ----\n"
+    album_text += f"Spotify Album ID: {album.album_id}\n"
+    album_text += f"Type: {album.album_type}\n"
+    album_text += f"Total Tracks: {album.total_tracks}\n"
+    album_text += f"Artists: {formatted_artists}\n"
+    album_text += f"Image URL: {album.image_url}\n"
+    album_text += f"Album URL: {album.spotify_url}\n"
+
+    return album_text
 
 # "private" functions
 

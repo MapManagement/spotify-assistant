@@ -15,10 +15,10 @@ def extract_artist(artist_dict: dict) -> Artist | None:
 
     extracted_artist = Artist(artist_id = artist_dict["id"],
                     name = artist_dict["name"],
-                    # image_url
+                    image_url = get_first_image_url(artist_dict["images"]),
                     spotify_url = artist_dict["external_urls"]["spotify"],
                     total_followers = artist_dict["followers"]["total"],
-                    # genres = artist_dict["genres"],
+                    genres = artist_dict["genres"],
                     popularity = artist_dict["popularity"]
                     )
 
@@ -72,12 +72,12 @@ def extract_track(track_dict: dict) -> Track | None:
 def extract_album(album_dict: dict) -> Album | None:
     extracted_album = Album(name = album_dict.get("name", ""),
                             album_id = album_dict.get("id", ""),
-                            # album_type
-                            total_tracks = album_dict.get("total_track", 0),
+                            album_type = album_dict["album_type"],
+                            total_tracks = album_dict.get("total_tracks", 0),
                             spotify_url = album_dict["external_urls"]["spotify"],
                             # release_date
-                            # image_url
-                            # artists = extract_multiple_artists(album_dict["artists"])
+                            image_url = get_first_image_url(album_dict["images"]),
+                            artists = extract_multiple_artists(album_dict["artists"], ExtractType.MINIMAL)
                             # tracks
                             )
 
