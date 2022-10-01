@@ -8,7 +8,7 @@ from typing import List
 def format_track(track: Track):
     formatted_artists = format_artist_list(track.artists)
     formatted_genres = format_genre_list(track.genres)
-    formatted_duration = track.duration / 6000
+    formatted_duration = format_duration(track.duration)
 
     track_text = f"---- {track.name.upper()} ----\n"
     track_text += f"Spotify Track ID: {track.track_id}\n"
@@ -16,6 +16,7 @@ def format_track(track: Track):
     track_text += f"Popularity: {track.popularity}\n"
     track_text += f"Duration: {formatted_duration}\n"
     track_text += f"Genres: {formatted_genres}\n"
+    track_text += f"Image URL {track.image_url}\n"
     track_text += f"Preview: {track.preview_url}\n"
     track_text += f"Track URL: {track.spotify_url}\n"
 
@@ -72,4 +73,12 @@ def format_genre_list(genres: List[str]):
 
     return genres_text
 
+def format_duration(duration: int) -> str:
+    hours_rest = duration % 3600000 
+    hours = duration // 3600000
+    minutes_rest = hours_rest % 60000
+    minutes = hours_rest // 60000
+    seconds = minutes_rest // 1000 
+    
+    return f"{hours:02}:{minutes:02}:{seconds:02}"
 

@@ -1,7 +1,13 @@
+from enum import Enum
 from api.spotify_classes.album import Album
 from api.spotify_classes.artist import Artist
 from api.spotify_classes.track import Track
 from typing import List
+
+class ExtractType(Enum):
+    FULL = 1
+    MINIMAL = 2
+    ONLY_ID = 3
 
 def extract_artist(artist_dict: dict) -> Artist | None:
     if artist_dict is None:
@@ -18,14 +24,27 @@ def extract_artist(artist_dict: dict) -> Artist | None:
 
     return extracted_artist
 
-def extract_multiple_artists(artists_list: List[dict]) -> List[Artist]:
+def extract_minimal_artist(artist_dict: dict) -> Artist | None:
+    extracted_minimal_artist = Artist(artist_id = artist_dict["id"],
+                                      name = artist_dict["name"],
+                                      spotify_url = artist_dict["external_urls"]["spotify"]
+                                      )
+    return extracted_minimal_artist
+
+
+def extract_multiple_artists(artists_list: List[dict], extract_type: ExtractType) -> List[Artist]:
     if artists_list is None or len(artists_list) == 0:
         return []
 
     extracted_artists_list: List[Artist] = []
 
     for artist in artists_list:
-        extracted_artist = extract_artist(artist)
+        extracted_artist = None
+
+        if extract_type is ExtractType.FULL: 
+            extracted_artist = extract_artist(artist)
+        elif extract_type is ExtractType.MINIMAL:
+            extracted_artist = extract_minimal_artist(artist)
 
         if extracted_artist is None:
             continue
@@ -43,9 +62,9 @@ def extract_track(track_dict: dict) -> Track | None:
                   preview_url = track_dict["preview_url"],
                   popularity = track_dict["popularity"],
                   album_id = track_dict["album"]["id"],
-                  # artists = extract_multiple_artists(track_dict["artists"])
-                  # genres = list(json_repsonse["artists"]["genres"]),
-                  # image_url
+                  artists = extract_multiple_artists(track_dict["artists"], ExtractType.MINIMAL),
+                  # genres: only stored with artists
+                  image_url = get_first_image_url(track_dict["album"]["images"])
                   )
 
     return extracted_track
@@ -64,3 +83,10 @@ def extract_album(album_dict: dict) -> Album | None:
 
     return extracted_album
 
+def get_first_image_url(image_list) -> str | None:
+    if len(image_list) == 0:
+        return None
+
+    for image in image_list:
+        image_url = image["url"]
+        return image_url
