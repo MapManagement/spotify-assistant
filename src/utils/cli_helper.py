@@ -1,6 +1,6 @@
 import api.api_connector as connector
 from api.spotify_classes.access_token import AccessToken
-from utils.formatter import format_album, format_track, format_artist
+from utils.formatter import format_album, format_audio_features, format_track, format_artist
 
 ERROR_TEXT = "Something went wrong..."
 
@@ -10,6 +10,15 @@ def get_full_track(track_url: str, access_token: str) -> str | None:
     if track is not None:
         formatted_track = format_track(track)
         return formatted_track
+
+    return ERROR_TEXT
+
+def get_audio_features(track_url: str, access_token: str) -> str | None:
+    audio_features = connector.get_auido_features(track_url, access_token)
+
+    if audio_features is not None:
+        formatted_audio_features = format_audio_features(audio_features)
+        return formatted_audio_features
 
     return ERROR_TEXT
 

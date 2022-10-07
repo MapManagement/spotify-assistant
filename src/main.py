@@ -1,5 +1,4 @@
 import api.api_connector as connector
-from api.spotify_classes.access_token import AccessToken
 from utils import cli_helper
 import json
 import os
@@ -23,6 +22,16 @@ def full_track(track_url: str):
 
     track_text = cli_helper.get_full_track(track_url, str(ACCESS_TOKEN))
     click.echo(track_text)
+
+@track.command()
+@click.argument("track_url")
+def track_features(track_url: str):
+    """ Get the audio features of a track """
+    if not valid_access_token():
+        return
+
+    audio_features_text = cli_helper.get_audio_features(track_url, str(ACCESS_TOKEN))
+    click.echo(audio_features_text)
 
 @track.command()
 @click.argument("track_url")

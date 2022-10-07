@@ -1,5 +1,6 @@
 from api.spotify_classes.artist import Artist
 from api.spotify_classes.album import Album
+from api.spotify_classes.audio_features import AudioFeatures
 from api.spotify_classes.track import Track
 from typing import List
 
@@ -21,6 +22,24 @@ def format_track(track: Track):
     track_text += f"Track URL: {track.spotify_url}\n"
 
     return track_text
+
+def format_audio_features(audio_features: AudioFeatures) -> str:
+    formatted_duration = format_duration(audio_features.duration)
+
+    features_text = f"---- {audio_features.track_id} ----\n"
+    features_text += f"Acousticness: {audio_features.acousticness*100:.2f}%\n"
+    features_text += f"Danceability: {audio_features.danceability*100:.2f}%\n"
+    features_text += f"Energy: {audio_features.energy*100:.2f}%\n"
+    features_text += f"Instrumentalness: {audio_features.instrumentalness*100:.2f}%\n"
+    features_text += f"Liveness: {audio_features.liveness*100:.2f}%\n"
+    features_text += f"Loudness: {audio_features.loudness*-1:.2f}dB\n"
+    features_text += f"Speechiness: {audio_features.speechiness*100:.2f}%\n"
+    features_text += f"Tempo: {audio_features.tempo:.2f} BPM\n"
+    features_text += f"Valence {audio_features.valence*100:.2f}%\n"
+    features_text += f"Pitch Class Integer: {audio_features.pitch_class}\n"
+    features_text += f"Duration: {formatted_duration}\n"
+
+    return features_text
 
 def format_track_genres():
     pass

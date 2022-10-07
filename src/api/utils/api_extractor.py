@@ -1,6 +1,7 @@
 from enum import Enum
 from api.spotify_classes.album import Album
 from api.spotify_classes.artist import Artist
+from api.spotify_classes.audio_features import AudioFeatures
 from api.spotify_classes.track import Track
 from typing import List
 
@@ -68,6 +69,23 @@ def extract_track(track_dict: dict) -> Track | None:
                   )
 
     return extracted_track
+
+def extract_audio_features(features_dict: dict) -> AudioFeatures | None:
+    extracted_features = AudioFeatures(track_id = features_dict["id"],
+                                       acousticness = features_dict["acousticness"],
+                                       danceability = features_dict["danceability"],
+                                       duration = features_dict["duration_ms"],
+                                       energy = features_dict["energy"],
+                                       instrumentalness = features_dict["instrumentalness"],
+                                       liveness = features_dict["liveness"],
+                                       loudness =  features_dict["loudness"],
+                                       speechiness = features_dict["speechiness"],
+                                       tempo = features_dict["tempo"],
+                                       valence = features_dict["valence"],
+                                       pitch_class = features_dict["key"]
+                                       )
+
+    return extracted_features
 
 def extract_album(album_dict: dict) -> Album | None:
     extracted_album = Album(name = album_dict.get("name", ""),

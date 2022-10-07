@@ -1,9 +1,10 @@
-import requests 
+import requests
 from api.spotify_classes.track import Track
+from api.spotify_classes.access_token import AccessToken
 from api.spotify_classes.album import Album
 from api.spotify_classes.artist import Artist
-from api.spotify_classes.access_token import AccessToken
-from api.utils.api_extractor import extract_artist, extract_track, extract_album
+from api.spotify_classes.audio_features import AudioFeatures
+from api.utils.api_extractor import extract_artist, extract_track, extract_album, extract_audio_features
 
 def get_access_token(client_id: str, client_secret: str) -> AccessToken:
     authorization_keys = {
@@ -36,6 +37,24 @@ def get_track(track_url: str, access_token: str) -> Track | None:
     track = extract_track(json_repsonse)
 
     return track
+
+def get_auido_features(track_url: str, access_token: str) -> AudioFeatures | None:
+    if track_url is None or access_token is None:
+        return None
+
+    track_id = get_id_from_url(track_url, "track")
+
+    if track_id is None:
+        return None
+
+    authorization_keys = { "Authorization": "Bearer " + access_token }
+    api_url = f"https://api.spotify.com/v1/audio-features/{track_id}"
+
+    json_response = requests.get(api_url, headers=authorization_keys).json()
+    audio_features = extract_audio_features(json_response)
+
+    return audio_features
+
 
 def get_album(album_url: str, access_token: str) -> Album | None:
     if album_url is None or access_token is None:
