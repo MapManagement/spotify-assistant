@@ -59,8 +59,13 @@ def format_artist(artist: Artist):
 
 
 
-def format_artist_genre():
-   pass
+def format_artist_genres(genres: list[str]):
+    genres_text = f"---- GENRES ----\n"
+
+    for genre in genres:
+       genres_text += f"{genre}\n"
+
+    return genres_text
 
 def format_album(album: Album):
     formatted_artists = format_artist_list(album.artists)

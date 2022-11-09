@@ -54,6 +54,17 @@ def extract_multiple_artists(artists_list: List[dict], extract_type: ExtractType
 
     return extracted_artists_list
 
+def extract_artist_genres(artist_dict: dict) -> list[str] | None:
+    if artist_dict is None:
+        return None
+
+    genres = artist_dict.get("genres")
+
+    if genres is None:
+        return None
+
+    return genres
+
 
 def extract_track(track_dict: dict) -> Track | None:
     extracted_track = Track(name = track_dict["name"],

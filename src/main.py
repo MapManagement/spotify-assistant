@@ -55,9 +55,13 @@ def full_artist(artist_url: str):
 
 @artist.command()
 @click.argument("artist_url")
-def artist_genre(artist_url: str):
+def artist_genres(artist_url: str):
     """Get the genre of an artist"""
-    pass
+    if not valid_access_token():
+        return
+
+    genres_text = cli_helper.get_artist_genres(artist_url, str(ACCESS_TOKEN))
+    click.echo(genres_text)
 
 @click.group()
 def album():
