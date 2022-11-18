@@ -3,7 +3,7 @@ from api.spotify_classes.album import Album
 from api.spotify_classes.artist import Artist
 from api.spotify_classes.audio_features import AudioFeatures
 from api.spotify_classes.track import Track
-from typing import List
+from typing import List, Dict
 
 class ExtractType(Enum):
     FULL = 1
@@ -54,16 +54,19 @@ def extract_multiple_artists(artists_list: List[dict], extract_type: ExtractType
 
     return extracted_artists_list
 
-def extract_artist_genres(artist_dict: dict) -> list[str] | None:
+def extract_artist_genres(artist_dict: dict) -> Dict[str, List[str]] | None:
     if artist_dict is None:
         return None
 
+    artist_name = artist_dict.get("name")
     genres = artist_dict.get("genres")
 
-    if genres is None:
+    if genres is None or artist_name is None:
         return None
 
-    return genres
+    artist_genres_dict = {artist_name: genres}
+
+    return artist_genres_dict 
 
 
 def extract_track(track_dict: dict) -> Track | None:

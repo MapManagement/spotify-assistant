@@ -32,10 +32,10 @@ def get_full_artist(artist_url: str, access_token: str) -> str | None:
     return ERROR_TEXT
 
 def get_artist_genres(artist_url: str, access_token: str) -> str | None:
-    genres = connector.get_artist_genres(artist_url, access_token)
+    artist_genres = connector.get_artist_genres(artist_url, access_token)
 
-    if genres is not None:
-        formatted_genres = format_artist_genres(genres)
+    if artist_genres is not None:
+        formatted_genres = format_artist_genres(artist_genres)
         return formatted_genres
 
     return ERROR_TEXT

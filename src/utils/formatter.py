@@ -2,11 +2,11 @@ from api.spotify_classes.artist import Artist
 from api.spotify_classes.album import Album
 from api.spotify_classes.audio_features import AudioFeatures
 from api.spotify_classes.track import Track
-from typing import List
+from typing import List, Dict
 
 # ----- "public" functions
 
-def format_track(track: Track):
+def format_track(track: Track) -> str:
     formatted_artists = format_artist_list(track.artists)
     formatted_genres = format_genre_list(track.genres)
     formatted_duration = format_duration(track.duration)
@@ -44,7 +44,7 @@ def format_audio_features(audio_features: AudioFeatures) -> str:
 def format_track_genres():
     pass
 
-def format_artist(artist: Artist):
+def format_artist(artist: Artist) -> str:
     formatted_genres = format_genre_list(artist.genres)
 
     artist_text = f"---- {artist.name.upper()} ----\n"
@@ -57,17 +57,22 @@ def format_artist(artist: Artist):
 
     return artist_text
 
+def format_artist_genres(artist_genres: Dict[str, List[str]]) -> str:
+    artist_name = list(artist_genres.keys())[0]
+    genres_text = f"---- {artist_name} ----\n"
 
+    genres = artist_genres.get(artist_name)
 
-def format_artist_genres(genres: list[str]):
-    genres_text = f"---- GENRES ----\n"
+    if genres is None:
+        genres_text += "Couldn't find any genre"
+        return genres_text
 
     for genre in genres:
        genres_text += f"{genre}\n"
 
     return genres_text
 
-def format_album(album: Album):
+def format_album(album: Album) -> str:
     formatted_artists = format_artist_list(album.artists)
 
     album_text = f"---- {album.name.upper()} ----\n"
@@ -82,7 +87,7 @@ def format_album(album: Album):
 
 # ----- "private" functions
 
-def format_artist_list(artists: List[Artist]):
+def format_artist_list(artists: List[Artist]) -> str:
     artists_text = ""
     counter = 0
 
@@ -96,7 +101,7 @@ def format_artist_list(artists: List[Artist]):
 
     return artists_text
 
-def format_genre_list(genres: List[str]):
+def format_genre_list(genres: List[str]) -> str:
     genres_text = ""
     counter = 0
 
