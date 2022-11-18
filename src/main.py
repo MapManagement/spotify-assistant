@@ -1,13 +1,10 @@
-import api.api_connector as connector
-from utils import cli_helper
-import json
-import os
+from utils import cli_helper, token_helper
 import click
 
 ACCESS_TOKEN = None
 ACCESS_TOKEN_ERROR = "Your access token could not be used to resolve data from Spotify."
 
-# ----- CLI-Commands
+# ----- CLI commands
 
 @click.group()
 def track():
@@ -77,37 +74,19 @@ def full_album(album_url: str):
     album_text = cli_helper.get_full_album(album_url, str(ACCESS_TOKEN))
     click.echo(album_text)
 
-# ----- Non-CLI-Commands
+# ----- Non-CLI functions
 
 def valid_access_token() -> bool:
     valid = ACCESS_TOKEN is not None or len(str(ACCESS_TOKEN)) == 0
+
     if not valid:
         click.echo(ACCESS_TOKEN_ERROR)
 
     return valid
 
-def read_secrets() -> dict:
-    filename = os.path.join('secrets.json')
-    try:
-        with open(filename, mode='r') as f:
-            return json.loads(f.read())
-    except FileNotFoundError:
-        return {}
-
-def get_access_token() -> str | None:
-    if ACCESS_TOKEN is not None:
-        return ACCESS_TOKEN
-
-    secrets = read_secrets()
-
-    if secrets is None or len(secrets) < 1: 
-        return None
-
-    token_object = connector.get_access_token(secrets["CLIENT_ID"], secrets["CLIENT_SECRET"])
-    return token_object.token
-
 if __name__ == "__main__":
-    ACCESS_TOKEN = get_access_token()
+    if ACCESS_TOKEN is None:
+        ACCESS_TOKEN = token_helper.get_access_token()
 
     if ACCESS_TOKEN is None:
         print("The access token is either empty or has not been set!")

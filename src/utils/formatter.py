@@ -4,7 +4,7 @@ from api.spotify_classes.audio_features import AudioFeatures
 from api.spotify_classes.track import Track
 from typing import List
 
-# "public" functions
+# ----- "public" functions
 
 def format_track(track: Track):
     formatted_artists = format_artist_list(track.artists)
@@ -80,7 +80,7 @@ def format_album(album: Album):
 
     return album_text
 
-# "private" functions
+# ----- "private" functions
 
 def format_artist_list(artists: List[Artist]):
     artists_text = ""
