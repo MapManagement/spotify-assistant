@@ -46,7 +46,7 @@ def full_artist(artist_url: str):
     """Get all information about an artist"""
     if not valid_access_token():
         return
-
+    print(ACCESS_TOKEN)
     artist_text = cli_helper.get_full_artist(artist_url, str(ACCESS_TOKEN))
     click.echo(artist_text)
 
@@ -74,6 +74,20 @@ def full_album(album_url: str):
     album_text = cli_helper.get_full_album(album_url, str(ACCESS_TOKEN))
     click.echo(album_text)
 
+@click.group()
+def playlist():
+    pass
+
+@playlist.command()
+@click.argument("playlist_url")
+def full_playlist(playlist_url: str):
+    """Get all information about a public playlist"""
+    if not valid_access_token():
+        return
+
+    playlist_text = cli_helper.get_full_playlist(playlist_url, str(ACCESS_TOKEN))
+    click.echo(playlist_text)
+
 # ----- Non-CLI functions
 
 def valid_access_token() -> bool:
@@ -92,6 +106,6 @@ if __name__ == "__main__":
         print("The access token is either empty or has not been set!")
         quit()
 
-    cli = click.CommandCollection(sources=[artist, album, track])
+    cli = click.CommandCollection(sources=[artist, album, track, playlist])
     cli()
 

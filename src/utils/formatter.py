@@ -2,6 +2,7 @@ from api.spotify_classes.artist import Artist
 from api.spotify_classes.album import Album
 from api.spotify_classes.audio_features import AudioFeatures
 from api.spotify_classes.track import Track
+from api.spotify_classes.playlist import Playlist
 from typing import List, Dict
 
 # ----- "public" functions
@@ -85,6 +86,22 @@ def format_album(album: Album) -> str:
 
     return album_text
 
+def format_playlist(playlist: Playlist) -> str:
+    formatted_tracks = format_track_list(playlist.tracks)
+
+    playlist_text = f"---- {playlist.name.upper()} ----\n"
+    playlist_text += f"Spotify Playlist ID: {playlist.playlist_id}\n"
+    playlist_text += f"Description: {playlist.description}\n"
+    playlist_text += f"Followers: {playlist.followers}\n"
+    playlist_text += f"Total Tracks: {playlist.total_tracks}\n"
+    playlist_text += f"Owner URL: {playlist.owner_url}\n"
+    playlist_text += f"Image URL: {playlist.image_url}\n"
+    playlist_text += f"Playlist URL: {playlist.spotify_url}\n"
+    playlist_text += f"Tracks:\n"
+    playlist_text += formatted_tracks
+
+    return playlist_text
+
 # ----- "private" functions
 
 def format_artist_list(artists: List[Artist]) -> str:
@@ -114,6 +131,16 @@ def format_genre_list(genres: List[str]) -> str:
             genres_text += " | "
 
     return genres_text
+
+def format_track_list(tracks: List[Track]) -> str:
+    tracks_text = ""
+
+    for track in tracks:
+        formatted_artists = format_artist_list(track.artists)
+        tracks_text += f"{track.name} by {formatted_artists}\n"
+        
+    return tracks_text
+
 
 def format_duration(duration: int) -> str:
     hours_rest = duration % 3600000 

@@ -1,6 +1,5 @@
 import api.api_connector as connector
-from api.spotify_classes.access_token import AccessToken
-from utils.formatter import format_album, format_audio_features, format_track, format_artist, format_artist_genres
+from utils.formatter import format_album, format_audio_features, format_track, format_artist, format_artist_genres, format_playlist
 
 ERROR_TEXT = "Something went wrong..."
 
@@ -46,5 +45,14 @@ def get_full_album(album_url: str, access_token: str) -> str | None:
     if album is not None:
         formatted_album = format_album(album)
         return formatted_album
+
+    return ERROR_TEXT
+
+def get_full_playlist(playlist_url: str, access_token: str) -> str | None:
+    playlist = connector.get_playlist(playlist_url, access_token)
+
+    if playlist is not None:
+        formatted_playlist = format_playlist(playlist)
+        return formatted_playlist
 
     return ERROR_TEXT

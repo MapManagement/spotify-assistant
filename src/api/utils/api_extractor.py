@@ -3,6 +3,7 @@ from api.spotify_classes.album import Album
 from api.spotify_classes.artist import Artist
 from api.spotify_classes.audio_features import AudioFeatures
 from api.spotify_classes.track import Track
+from api.spotify_classes.playlist import Playlist
 from typing import List, Dict
 
 class ExtractType(Enum):
@@ -84,6 +85,23 @@ def extract_track(track_dict: dict) -> Track | None:
 
     return extracted_track
 
+def extract_multiple_tracks(track_list: List[dict]) -> List[Track]:
+    if track_list is None or len(track_list) == 0:
+        return []
+
+    extracted_track_list: List[Track] = []
+
+    for track in track_list:
+        track_dict: dict = track.get("track", None)
+
+        if track_dict is None:
+            continue
+
+        full_track = extract_track(track_dict)
+        extracted_track_list.append(full_track)
+
+    return extracted_track_list
+
 def extract_audio_features(features_dict: dict) -> AudioFeatures | None:
     extracted_features = AudioFeatures(track_id = features_dict["id"],
                                        acousticness = features_dict["acousticness"],
@@ -114,6 +132,26 @@ def extract_album(album_dict: dict) -> Album | None:
                             )
 
     return extracted_album
+
+def extract_playlist(playlist_dict: dict) -> Playlist | None:
+    tracks = extract_multiple_tracks(playlist_dict["tracks"]["items"])
+    total_tracks = len(tracks)
+
+    extracted_playlist = Playlist(playlist_id = playlist_dict.get("id", ""),
+                                  name = playlist_dict.get("name", ""),
+                                  description = playlist_dict.get("description", ""),
+                                  spotify_url = playlist_dict["external_urls"]["spotify"],
+                                  image_url = get_first_image_url(playlist_dict["images"]),
+                                  owner_url = playlist_dict["owner"]["external_urls"]["spotify"],
+                                  followers = playlist_dict["followers"]["total"],
+                                  total_tracks = total_tracks,
+                                  tracks = tracks
+                                  )
+
+    return extracted_playlist
+
+
+
 
 def get_first_image_url(image_list) -> str | None:
     if len(image_list) == 0:

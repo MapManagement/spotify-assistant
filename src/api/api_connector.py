@@ -4,7 +4,8 @@ from api.spotify_classes.access_token import AccessToken
 from api.spotify_classes.album import Album
 from api.spotify_classes.artist import Artist
 from api.spotify_classes.audio_features import AudioFeatures
-from api.utils.api_extractor import extract_artist, extract_track, extract_album, extract_audio_features, extract_artist_genres
+from api.spotify_classes.playlist import Playlist
+from api.utils.api_extractor import extract_artist, extract_track, extract_album, extract_audio_features, extract_artist_genres, extract_playlist
 from typing import List, Dict
 
 def get_access_token(client_id: str, client_secret: str) -> AccessToken:
@@ -107,6 +108,23 @@ def get_artist_genres(artist_url: str, access_token: str) -> Dict[str, List[str]
     artist_genres = extract_artist_genres(json_repsonse)
 
     return artist_genres
+
+def get_playlist(playlist_url: str, access_token: str) -> Playlist | None:
+    if playlist_url is None or access_token is None:
+        return None
+
+    playlist_id = get_id_from_url(playlist_url, "playlist")
+
+    if playlist_id is None:
+        return None
+
+    authorization_keys = { "Authorization": "Bearer " + access_token }
+    api_url = f"https://api.spotify.com/v1/playlists/{playlist_id}" 
+
+    json_repsonse = requests.get(api_url, headers=authorization_keys).json()
+    playlist = extract_playlist(json_repsonse)
+
+    return playlist
 
 def get_id_from_url(url: str, object_type: str) -> str | None:
     position = url.find(f"{object_type}/")
