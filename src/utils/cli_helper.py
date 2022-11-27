@@ -3,6 +3,8 @@ from utils.formatter import format_album, format_audio_features, format_track, f
 
 ERROR_TEXT = "Something went wrong..."
 
+# ---- TRACK RELATED ----
+
 def get_full_track(track_url: str, access_token: str) -> str | None:
     track = connector.get_track(track_url, access_token)
 
@@ -20,6 +22,8 @@ def get_audio_features(track_url: str, access_token: str) -> str | None:
         return formatted_audio_features
 
     return ERROR_TEXT
+
+# ---- ARTIST RELATED ----
 
 def get_full_artist(artist_url: str, access_token: str) -> str | None:
     artist = connector.get_artist(artist_url, access_token)
@@ -39,6 +43,8 @@ def get_artist_genres(artist_url: str, access_token: str) -> str | None:
 
     return ERROR_TEXT
 
+# ---- ALBUM RELATED ----
+
 def get_full_album(album_url: str, access_token: str) -> str | None:
     album = connector.get_album(album_url, access_token)
 
@@ -47,6 +53,8 @@ def get_full_album(album_url: str, access_token: str) -> str | None:
         return formatted_album
 
     return ERROR_TEXT
+
+# ---- PLAYLIST RELATED ----
 
 def get_full_playlist(playlist_url: str, access_token: str) -> str | None:
     playlist = connector.get_playlist(playlist_url, access_token)

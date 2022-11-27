@@ -7,6 +7,8 @@ from typing import List, Dict
 
 # ----- "public" functions
 
+# ---- TRACK RELATED ----
+
 def format_track(track: Track) -> str:
     formatted_artists = format_artist_list(track.artists)
     formatted_genres = format_genre_list(track.genres)
@@ -45,6 +47,8 @@ def format_audio_features(audio_features: AudioFeatures) -> str:
 def format_track_genres():
     pass
 
+# ---- ARTIST RELATED ----
+
 def format_artist(artist: Artist) -> str:
     formatted_genres = format_genre_list(artist.genres)
 
@@ -73,6 +77,8 @@ def format_artist_genres(artist_genres: Dict[str, List[str]]) -> str:
 
     return genres_text
 
+# ---- ALBUM RELATED ----
+
 def format_album(album: Album) -> str:
     formatted_artists = format_artist_list(album.artists)
 
@@ -85,6 +91,8 @@ def format_album(album: Album) -> str:
     album_text += f"Album URL: {album.spotify_url}\n"
 
     return album_text
+
+# ---- PLAYLIST RELATED ----
 
 def format_playlist(playlist: Playlist) -> str:
     formatted_tracks = format_track_list(playlist.tracks)

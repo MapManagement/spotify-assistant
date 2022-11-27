@@ -23,6 +23,8 @@ def get_access_token(client_id: str, client_secret: str) -> AccessToken:
 
     return access_token
 
+# ---- TRACK RELATED ----
+
 def get_track(track_url: str, access_token: str) -> Track | None:
     if track_url is None or access_token is None:
         return None
@@ -57,6 +59,7 @@ def get_audio_features(track_url: str, access_token: str) -> AudioFeatures | Non
 
     return audio_features
 
+# ---- ALBUM RELATED ----
 
 def get_album(album_url: str, access_token: str) -> Album | None:
     if album_url is None or access_token is None:
@@ -74,6 +77,8 @@ def get_album(album_url: str, access_token: str) -> Album | None:
     album = extract_album(json_repsonse)
 
     return album
+
+# ---- ARTIST RELATED ----
 
 def get_artist(artist_url: str, access_token: str) -> Artist | None:
     if artist_url is None or access_token is None:
@@ -109,6 +114,8 @@ def get_artist_genres(artist_url: str, access_token: str) -> Dict[str, List[str]
 
     return artist_genres
 
+# ---- PLAYLIST RELATED ----
+
 def get_playlist(playlist_url: str, access_token: str) -> Playlist | None:
     if playlist_url is None or access_token is None:
         return None
@@ -125,6 +132,8 @@ def get_playlist(playlist_url: str, access_token: str) -> Playlist | None:
     playlist = extract_playlist(json_repsonse)
 
     return playlist
+
+# ---- "private" functions ----
 
 def get_id_from_url(url: str, object_type: str) -> str | None:
     position = url.find(f"{object_type}/")

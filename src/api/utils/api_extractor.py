@@ -11,6 +11,8 @@ class ExtractType(Enum):
     MINIMAL = 2
     ONLY_ID = 3
 
+# ---- ARTIST RELATED ----
+
 def extract_artist(artist_dict: dict) -> Artist | None:
     if artist_dict is None:
         return None 
@@ -69,6 +71,7 @@ def extract_artist_genres(artist_dict: dict) -> Dict[str, List[str]] | None:
 
     return artist_genres_dict 
 
+# ---- TRACK RELATED ----
 
 def extract_track(track_dict: dict) -> Track | None:
     extracted_track = Track(name = track_dict["name"],
@@ -119,6 +122,8 @@ def extract_audio_features(features_dict: dict) -> AudioFeatures | None:
 
     return extracted_features
 
+# ---- ALBUM RELATED ----
+
 def extract_album(album_dict: dict) -> Album | None:
     extracted_album = Album(name = album_dict.get("name", ""),
                             album_id = album_dict.get("id", ""),
@@ -132,6 +137,8 @@ def extract_album(album_dict: dict) -> Album | None:
                             )
 
     return extracted_album
+
+# ---- PLAYLIST RELATED ----
 
 def extract_playlist(playlist_dict: dict) -> Playlist | None:
     tracks = extract_multiple_tracks(playlist_dict["tracks"]["items"])
@@ -150,8 +157,7 @@ def extract_playlist(playlist_dict: dict) -> Playlist | None:
 
     return extracted_playlist
 
-
-
+# ---- "private" functions ----
 
 def get_first_image_url(image_list) -> str | None:
     if len(image_list) == 0:
